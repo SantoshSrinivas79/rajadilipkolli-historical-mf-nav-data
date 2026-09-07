@@ -3,40 +3,17 @@ package com.github.rajadilipkolli.dailynav.integration;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 
-import com.github.rajadilipkolli.dailynav.AiSearchController;
-import com.github.rajadilipkolli.dailynav.DailyNavAutoConfiguration;
-import com.github.rajadilipkolli.dailynav.KnowledgeSearchController;
-import com.github.rajadilipkolli.dailynav.MutualFundService;
-import com.github.rajadilipkolli.dailynav.PerformanceReportController;
-import com.github.rajadilipkolli.dailynav.TrendAnomalyResult;
+import com.github.rajadilipkolli.dailynav.domain.report.TrendAnomalyResult;
+import com.github.rajadilipkolli.dailynav.infrastructure.web.AiSearchController;
+import com.github.rajadilipkolli.dailynav.infrastructure.web.KnowledgeSearchController;
+import com.github.rajadilipkolli.dailynav.infrastructure.web.PerformanceReportController;
 import java.time.Duration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.assertj.MockMvcTester;
 import tools.jackson.databind.JsonNode;
 
-@SpringBootTest(
-    classes = {DailyNavAutoConfiguration.class},
-    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-    properties = {
-      "management.endpoints.web.exposure.include=health",
-      "management.endpoint.health.show-details=always",
-      "daily-nav.ai.enabled=true"
-    })
-@EnableAutoConfiguration
-@AutoConfigureMockMvc
-@Import(TestcontainersConfiguration.class)
-class AiSearchControllerIT {
-
-  @Autowired private MockMvcTester mockMvcTester;
-
-  @Autowired private MutualFundService mutualFundService;
+class AiSearchControllerIT extends AbstractIntegrationTest {
 
   @BeforeEach
   void setUp() {
