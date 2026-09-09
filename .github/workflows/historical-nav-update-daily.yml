@@ -1,7 +1,8 @@
 name: Update and Publish Historical Nav Data
 on:
   schedule:
-    - cron: '30 2 * * *'
+    # Run every day at 01:30 (12:00 IST)
+    - cron: '30 1 * * *'
   push:
     branches:
       - main
@@ -389,14 +390,14 @@ jobs:
           cp funds.db.zst src/main/resources/
 
       - name: Log in to the Container registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: .
           push: true
